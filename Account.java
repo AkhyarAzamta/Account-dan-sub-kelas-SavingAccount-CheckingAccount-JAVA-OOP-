@@ -17,11 +17,11 @@ public class Account {
     }
  
     public void withdraw(double amt) {
-      //  if (amt > balance) {
-      //     System.out.println("Amount exceeded balance");
-      //  } else {
+       if (amt > balance) {
+          System.out.println("Amount exceededed balance");
+       } else {
           balance -= amt;
-      //  }
+       }
     }
  
     public String toString() {
@@ -43,18 +43,18 @@ public class Account {
    //     return interestRate;
    //  }
  
-   //  public void setInterestRate(double interestRate) {
-   //     this.interestRate = interestRate;
-   //  }
+    public void setInterestRate(double interestRate) {
+       this.interestRate = interestRate;
+    }
  
     public void depositInterest() {
        double interest = getBalance() * interestRate / 100;
        deposit(interest);
     }
  
-   //  public String toString() {
-   //     return super.toString() + ", interest rate: " + interestRate + "%";
-   //  }
+    public String toString() {
+       return super.toString() + ", interest rate: " + interestRate + "%";
+    }
  }
   class CheckingAccount extends Account {
     // instance variables
@@ -76,11 +76,27 @@ public class Account {
     }
  
     public void withdraw(double amt) {
-       if (amt > getBalance() + overdraftProtection) {
-          System.out.println("Amount exceeded balance");
-       } else {
-          balance -= amt;
+      if (balance - amt >= 0.0) { // jika balance – amount => 0.0
+         balance -= amt; // proses pengambilan diperbolehkan
+         // return true;
+       } else { // jika balance – amount < 0.0
+         if (overdraftProtection == -1.0 || overdraftProtection < (amt - balance)) { // jika tidak ada overdraftProtection atau overdraftProtection < overdraftNeeded (amount - balance)
+           // tidak melakukan apa-apa
+           overdraftProtection -= (amt - balance);
+           System.out.println("Amount edeee balance");
+         //   return false;
+         } else { // jika terdapat overdraftProtection atau overdraftProtection > overdraftNeeded (amount - balance)
+           balance = 0.0; // proses pengambilan uang berhasil
+           overdraftProtection -= (amt - balance); // set balance = 0.0; overdraftProtection = overdraftProtection – overdraftNeeded
+         //   return true;
+         }
        }
+      
+      //  if (amt > getBalance() + overdraftProtection) {
+      //     System.out.println("Amount ed balance");
+      //  } else {
+      //     balance -= amt;
+      //  }
     }
  
     public String toString() {
@@ -90,17 +106,23 @@ public class Account {
   class Main {
    public static void main(String[] args) {
       // membuat objek kelas SavingAccount
-      SavingAccount sa = new SavingAccount(1000, 5);
-      sa.deposit(10000);
+      SavingAccount sa = new SavingAccount(1000, 0.5);
+      sa.deposit(4000);
       sa.depositInterest();
       System.out.println(sa.toString());
 
       // membuat objek kelas CheckingAccount
       CheckingAccount ca = new CheckingAccount(1000, 5000);
-      ca.withdraw(5000);
-      System.out.println(ca.toString());
-      // ca.withdraw(500);
-      // System.out.println(ca.toString());
+      ca.deposit(4000);
+      ca.withdraw(16000);
+      sa.withdraw(5000);
+
+      if (ca.getBalance() < 0 || sa.getBalance() < 0) {
+         System.out.println("saldo rekening tidak mencukupi untuk melakukan penarikan");
+      } else {
+         System.out.println(ca.toString());
+         System.out.println(sa.toString());
+      }
    }
 }
 
