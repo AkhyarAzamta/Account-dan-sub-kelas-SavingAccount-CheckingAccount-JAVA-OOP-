@@ -1,3 +1,5 @@
+// source code by Akhyar Azamta 
+// github : https://github.com/AkhyarAzamta/
 class Account {
     protected double balance; // atribut balance tipe double, sifat protected
   
@@ -50,7 +52,9 @@ class Account {
         return super.toString() + ", interest rate: " + interestRate + "%";
      }
   }
-  
+// source code by Akhyar Azamta 
+// github : https://github.com/AkhyarAzamta/
+
    class CheckingAccount extends Account {
     private double overdraftProtection; // atribut overdraftProtection, tipe double, sifat private
   
@@ -87,6 +91,9 @@ class Account {
       }
     }
 
+    // source code by Akhyar Azamta 
+// github : https://github.com/AkhyarAzamta/
+
     // Constructor dengan satu parameter: balance
     public CheckingAccount(double balance) {
         this(balance, -1.0); // passing parameter balance ke local constructor dengan this. Nilai protect default adalah -1.0
@@ -120,3 +127,6 @@ class Account {
      }
     }
 }
+
+// source code by Akhyar Azamta 
+// github : https://github.com/AkhyarAzamta/
